@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'selenium/standalone-chrome:latest'
+            args '-u root'
+        }
+    }
 
     tools {
         maven 'Maven 3.9.8' 
