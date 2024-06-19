@@ -41,6 +41,10 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
             junit 'target/surefire-reports/*.xml'
+            publishCucumberReports(
+                jsonReportDirectory: 'target',
+                reportTitle: 'Cucumber Report'
+            )
         }
     }
 }
