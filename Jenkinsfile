@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.6.3' // Sesuaikan dengan versi Maven yang terinstal
-        jdk 'JDK 11'        // Sesuaikan dengan versi JDK yang terinstal
+        maven 'Maven 3.6.3' 
+        jdk 'JDK 11'       
     }
 
     stages {
