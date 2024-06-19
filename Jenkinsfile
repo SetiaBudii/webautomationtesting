@@ -18,11 +18,11 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         sh 'mvn clean install'
+        //     }
+        // }
 
         stage('Test') {
             steps {
@@ -32,7 +32,7 @@ pipeline {
 
         stage('Generate Report') {
             steps {
-                cucumber 'target/cucumber-report.json'
+                cucumber 'result/cucumber-report.json'
             }
         }
     }
