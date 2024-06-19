@@ -1,14 +1,14 @@
 pipeline {
     agent {
         docker {
-            image 'selenium/standalone-chrome:latest'
-            args '-u root'
+            image 'maven:3.8.1-jdk-11'
+            args '-v /dev/shm:/dev/shm' // Important for running browsers in Docker
         }
     }
 
     tools {
-        maven 'Maven 3.9.8' 
-        jdk 'JDK 11'       
+        maven 'Maven 3.8.1'
+        jdk 'JDK 11'
     }
 
     environment {
@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/SetiaBudii/webautomationtesting.git'
+                git 'https://github.com/your-repo/your-project.git'
             }
         }
 
