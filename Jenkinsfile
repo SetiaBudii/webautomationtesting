@@ -6,6 +6,11 @@ pipeline {
         jdk 'JDK 11'       
     }
 
+    environment {
+        JAVA_HOME = tool name: 'JDK 11', type: 'jdk'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
