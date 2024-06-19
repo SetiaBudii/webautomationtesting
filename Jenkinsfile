@@ -1,13 +1,13 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.8.1-jdk-11'
+            image 'maven:3.9.8-jdk-11'
             args '-v /dev/shm:/dev/shm' // Important for running browsers in Docker
         }
     }
 
     tools {
-        maven 'Maven 3.8.1'
+        maven 'Maven 3.9.8'
         jdk 'JDK 11'
     }
 
