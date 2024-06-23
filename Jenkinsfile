@@ -37,14 +37,14 @@ pipeline {
         }
     }
 
-    // post {
-    //     always {
-    //         archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
-    //         junit 'target/surefire-reports/*.xml'
-    //         publishCucumberReports(
-    //             jsonReportDirectory: 'target',
-    //             reportTitle: 'Cucumber Report'
-    //         )
-    //     }
-    // }
+    post {
+        always {
+            archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            // junit 'target/surefire-reports/*.xml'
+            // publishCucumberReports(
+            //     jsonReportDirectory: 'target',
+            //     reportTitle: 'Cucumber Report'
+            // )
+        }
+    }
 }
