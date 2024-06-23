@@ -39,8 +39,12 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
-            junit 'target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            // junit 'target/surefire-reports/*.xml'
+            // publishCucumberReports(
+            //     jsonReportDirectory: 'target',
+            //     reportTitle: 'Cucumber Report'
+            // )
         }
     }
 }
