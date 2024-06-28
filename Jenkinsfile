@@ -32,7 +32,7 @@ pipeline {
 
         stage('Generate Report') {
             steps {
-                cucumber 'target/cucumber-report.json'
+                cucumber 'result/cucumber-report.json'
             }
         }
     }
