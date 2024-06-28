@@ -2,6 +2,7 @@ package io.cucumber.swaglabs.utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverManager {
   private static WebDriver driver;
@@ -9,8 +10,10 @@ public class DriverManager {
   public static WebDriver getDriver() 
   {
     if (driver == null) {
-      driver = new ChromeDriver();
-      driver.manage().window().maximize();
+      ChromeOptions options = new ChromeOptions();
+      options.addArguments("--start-maximized");      
+      driver = new ChromeDriver(options);
+      driver.manage().window().maximize();  
     }
     return driver;
   }
