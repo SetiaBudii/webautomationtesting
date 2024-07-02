@@ -52,12 +52,6 @@
         </dependency>
 
         <dependency>
-    <groupId>org.jenkins-ci.plugins</groupId>
-    <artifactId>chromedriver</artifactId>
-    <version>1.2</version>
-</dependency>
-
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
