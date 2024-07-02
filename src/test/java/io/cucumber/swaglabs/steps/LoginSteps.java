@@ -18,6 +18,8 @@ public class LoginSteps {
   @Given("I am on the login page")
   public void iAmOnTheLoginPage() {
     Hooks.driver.get("https://www.saucedemo.com/");
+    Hooks.driver.manage().window().maximize();
+    Hooks.driver.manage().window().setSize(new org.openqa.selenium.Dimension(2048, 1080));
   }
 
   @When("I enter username {string} and password {string}")
