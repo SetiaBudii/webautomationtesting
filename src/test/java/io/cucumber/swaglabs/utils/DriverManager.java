@@ -12,10 +12,9 @@ public class DriverManager {
   {
     if (driver == null) {
       ChromeOptions options = new ChromeOptions();
-      options.addArguments("--start-maximized");      
       driver = new ChromeDriver(options);
       driver.manage().window().maximize();  
-      driver.manage().window().setSize(new Dimension(1920, 1080));
+      driver.manage().window().setSize(new Dimension(2048, 1080));
     }
     return driver;
   }
