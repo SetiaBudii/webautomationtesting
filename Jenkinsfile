@@ -12,6 +12,12 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                clearWs()
+            }
+        }
+
         stage('Checkout') {
             steps {
                 git 'https://github.com/SetiaBudii/webautomationtesting.git'
@@ -26,7 +32,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                clearWs()
                 sh 'mvn test'
             }
         }
