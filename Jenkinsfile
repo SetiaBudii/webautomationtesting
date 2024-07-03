@@ -26,6 +26,7 @@ pipeline {
 
         stage('Test') {
             steps {
+                clearWs()
                 sh 'mvn test'
             }
         }
