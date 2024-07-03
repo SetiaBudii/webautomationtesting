@@ -115,8 +115,8 @@ pipeline {
                     # Parse the JSON file and extract the necessary information
                     jq -r '
                         .[] | .elements[] | select(.type == "scenario") |
-                        "\(.name) - \(.steps[] | select(.result.status == "failed") | "FAILED\\nActual: \(.result.error_message | split("\\n")[0])\\nExpected: \(.match.arguments[0].val)")",
-                        "\(.name) - \(.steps[] | select(.result.status == "passed") | "PASSED")"
+                        "\\(.name) - \\(.steps[] | select(.result.status == \\"failed\\") | \\"FAILED\\\\nActual: \\(.result.error_message | split(\\\\\\"\\\\n\\\\")[0])\\\\nExpected: \\(.match.arguments[0].val)\\")",
+                        "\\(.name) - \\(.steps[] | select(.result.status == \\"passed\\") | \\"PASSED\\")"
                     ' ${jsonFile}
                     '''.stripIndent()
                     
@@ -141,6 +141,11 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
             archiveArtifacts artifacts: 'results_summary.txt', allowEmptyArchive: true
+            // junit 'target/surefire-reports/*.xml'
+            // publishCucumberReports(
+            //     jsonReportDirectory: 'target',
+            //     reportTitle: 'Cucumber Report'
+            // )
         }
     }
 }
