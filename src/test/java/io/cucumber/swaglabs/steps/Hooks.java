@@ -24,7 +24,7 @@ public class Hooks {
             // Get current timestamp
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             // Create the screenshot name with the timestamp
-            String screenshotName = scenario.getName().replaceAll(" ", "_") + "_" + timestamp + ".png";
+            String screenshotName = scenario.getName().replaceAll(" ", "_") + "_" + ".png";
             // Generate the file path
             String filePath = Paths.get(System.getProperty("user.dir"), "screenshots", screenshotName).toString();
             // Take the screenshot
