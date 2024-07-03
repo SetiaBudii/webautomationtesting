@@ -15,6 +15,7 @@ pipeline {
         stage('Delete exist screenshots') {
             steps {
                 def screenshotDir = "${env.WORKSPACE}/screenshots"
+                echo "Checking folder: ${screenshotDir}"
                 if (fileExists(screenshotDir)) {
                     echo "Deleting folder: ${screenshotDir}"
                     sh "rm -rf ${screenshotDir}"
