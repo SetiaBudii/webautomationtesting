@@ -42,7 +42,7 @@ public class DriverManager {
                 ChromeOptions options = new ChromeOptions();
                 driver = new RemoteWebDriver(new URL(SELENIUM_GRID_URL), options);
                 driver.manage().window().maximize();
-                driver.manage().window().setSize(new org.openqa.selenium.Dimension(2048, 1080));
+                driver.manage().window().setSize(new org.openqa.selenium.Dimension(2560, 1440));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Failed to create WebDriver", e);
