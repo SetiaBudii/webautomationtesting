@@ -12,15 +12,19 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Delete exist screenshots') {
             steps {
-                git 'https://github.com/SetiaBudii/webautomationtesting.git'
+                def screenshotDir = "${env.WORKSPACE}/screenshots"
+                echo "Checking folder: ${screenshotDir}"
+                if (fileExists(screenshotDir)) {
+                    echo "Deleting folder: ${screenshotDir}"
+                    sh "rm -rf ${screenshotDir}"
             }
         }
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                sh 'mvn clean install'
+                git 'https://github.com/SetiaBudii/webautomationtesting.git'
             }
         }
 
