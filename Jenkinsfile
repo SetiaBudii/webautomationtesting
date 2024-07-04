@@ -95,17 +95,30 @@ pipeline {
         }
     }
 
-    post {
+ post {
         always {
             script {
                 def jsonFile = "result/cucumber-report.json"
                 def scriptContent = '''
                 #!/bin/bash
+                set -e  # Exit immediately if a command exits with a non-zero status.
+                
+                echo "Checking if jq is installed..."
                 if ! command -v jq &> /dev/null; then
                     echo "jq could not be found. Please install jq to run this script."
                     exit 1
                 fi
 
+                echo "Checking if JSON file exists..."
+                if [ ! -f ${jsonFile} ]; then
+                    echo "JSON file not found!"
+                    exit 1
+                fi
+
+                echo "Contents of JSON file:"
+                cat ${jsonFile}
+
+                echo "Parsing JSON file..."
                 # Parse the JSON file and extract the necessary information
                 jq -r '
                     .[] | .elements[] | select(.type == "scenario") |
@@ -113,10 +126,14 @@ pipeline {
                     "\\(.name) - \\(.steps[] | select(.result.status == \\"passed\\") | \\"PASSED\\")"
                 ' ${jsonFile}
                 '''.stripIndent()
-                
+
+                echo "Writing parse_results.sh script..."
                 writeFile file: 'parse_results.sh', text: scriptContent
                 sh 'chmod +x parse_results.sh'
+
+                echo "Executing parse_results.sh..."
                 sh './parse_results.sh > results_summary.txt'
+
                 echo "Test Results Summary:"
                 sh 'cat results_summary.txt'
             }
