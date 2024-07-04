@@ -117,7 +117,7 @@ pipeline {
     environment {
         JAVA_HOME = tool name: 'JDK 11', type: 'jdk'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
-        CLICKUP_API_TOKEN = 'pk_96750405_83LRC7IDFG5D865SR6OFHCYI9V3EOLUO'
+        CLICKUP_API_TOKEN = 'pk_96750405_7PSWFP0AWS1LPWOYP3HPE8TFE7GM09UW'
         TASK_ID = '86epr4har'
     }
 
