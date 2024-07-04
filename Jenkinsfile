@@ -94,6 +94,7 @@ pipeline {
             }
         }
     }
+
  post {
         always {
             script {
@@ -101,26 +102,29 @@ pipeline {
                 def scriptContent = '''
                 #!/bin/bash
                 set -e  # Exit immediately if a command exits with a non-zero status.
+                
+                echo "Checking if jq is installed..."
+                if ! command -v jq &> /dev/null; then
+                    echo "jq could not be found. Please install jq to run this script."
+                    exit 1
+                fi
 
                 echo "Checking if JSON file exists..."
-                if [ ! -f "${jsonFile}" ]; then
+                if [ ! -f ${jsonFile} ]; then
                     echo "JSON file not found!"
                     exit 1
                 fi
 
                 echo "Contents of JSON file:"
-                cat "${jsonFile}"
+                cat ${jsonFile}
 
-                echo "Parsing JSON file without jq..."
-
-                echo "Extracting failed scenarios..."
-                grep -oP '"name":.*?[^\\\\]",' "${jsonFile}" | sed 's/"name": "\\(.*\\)",/Scenario: \\1/' > results_summary.txt
-                grep -oP '"status": "failed".*?"error_message": ".*?[^\\\\]",' "${jsonFile}" | sed -e 's/"status": "failed"/FAILED/g' -e 's/"error_message": "\\(.*\\)"/Actual: \\1/' >> results_summary.txt
-
-                echo "Extracting passed scenarios..."
-                grep -oP '"name":.*?[^\\\\]",' "${jsonFile}" | sed 's/"name": "\\(.*\\)",/Scenario: \\1/' >> results_summary.txt
-                grep -oP '"status": "passed"' "${jsonFile}" | sed 's/"status": "passed"/PASSED/g' >> results_summary.txt
-
+                echo "Parsing JSON file..."
+                # Parse the JSON file and extract the necessary information
+                jq -r '
+                    .[] | .elements[] | select(.type == "scenario") |
+                    "\\(.name) - \\(.steps[] | select(.result.status == \\"failed\\") | \\"FAILED\\\\nActual: \\(.result.error_message | split(\\\\\\"\\\\n\\\\")[0])\\\\nExpected: \\(.match.arguments[0].val)\\")",
+                    "\\(.name) - \\(.steps[] | select(.result.status == \\"passed\\") | \\"PASSED\\")"
+                ' ${jsonFile}
                 '''.stripIndent()
 
                 echo "Writing parse_results.sh script..."
