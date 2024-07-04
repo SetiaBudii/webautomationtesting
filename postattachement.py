@@ -10,7 +10,7 @@ query = {
 }
 
 headers = {
-    "Authorization": "Bearer pk_96750405_C4N3NNHPNME1JZDBM5VGV6KVASB6H74D"
+    "Authorization": "pk_96750405_C4N3NNHPNME1JZDBM5VGV6KVASB6H74D"
 }
 
 # Path ke semua file yang ada di dalam folder screenshots
