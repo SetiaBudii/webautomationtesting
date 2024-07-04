@@ -25,7 +25,9 @@ for feature in data:
                 print(f"  - status: {status}")
                 
                 if status == "failed":
-                    print(f"  - nama error: {error_message.split('\\n')[0]}")
+                    # Use splitlines() method to handle error_message splitting
+                    first_line_error_message = error_message.splitlines()[0]
+                    print(f"  - nama error: {first_line_error_message}")
                     
             scenario_counter += 1
             print("\n")
