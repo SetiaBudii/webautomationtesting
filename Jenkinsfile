@@ -94,45 +94,47 @@ pipeline {
             }
         }
     }
-post {
+ post {
         always {
             script {
                 def jsonFile = "result/cucumber-report.json"
-                def resultsSummaryFile = 'results_summary.txt'
+                def scriptContent = '''
+                #!/bin/bash
+                set -e  # Exit immediately if a command exits with a non-zero status.
 
-                def jsonContent = readFile(jsonFile)
-                def jsonSlurper = new groovy.json.JsonSlurper()
-                def testResults = jsonSlurper.parseText(jsonContent)
+                echo "Checking if JSON file exists..."
+                if [ ! -f "${jsonFile}" ]; then
+                    echo "JSON file not found!"
+                    exit 1
+                fi
 
-                def resultsSummary = new StringBuilder()
-                testResults.each { feature ->
-                    resultsSummary.append("Feature: ${feature.name}\n")
-                    feature.elements.each { scenario ->
-                        resultsSummary.append("  Scenario: ${scenario.name}\n")
-                        scenario.steps.each { step ->
-                            def stepStatus = step.result.status
-                            def stepName = step.name
-                            resultsSummary.append("    ${step.keyword} ${stepName} - ${stepStatus}\n")
-                            if (stepStatus == "failed") {
-                                def errorMessage = step.result.error_message ?: "No error message"
-                                resultsSummary.append("      Error: ${errorMessage}\n")
-                            }
-                        }
-                    }
-                    resultsSummary.append("\n")
-                }
+                echo "Contents of JSON file:"
+                cat "${jsonFile}"
 
-                // Menulis ringkasan hasil tes ke file
-                writeFile file: resultsSummaryFile, text: resultsSummary.toString()
+                echo "Parsing JSON file without jq..."
 
-                // Menampilkan ringkasan hasil tes di console Jenkins
+                echo "Extracting failed scenarios..."
+                grep -oP '"name":.*?[^\\\\]",' "${jsonFile}" | sed 's/"name": "\\(.*\\)",/Scenario: \\1/' > results_summary.txt
+                grep -oP '"status": "failed".*?"error_message": ".*?[^\\\\]",' "${jsonFile}" | sed -e 's/"status": "failed"/FAILED/g' -e 's/"error_message": "\\(.*\\)"/Actual: \\1/' >> results_summary.txt
+
+                echo "Extracting passed scenarios..."
+                grep -oP '"name":.*?[^\\\\]",' "${jsonFile}" | sed 's/"name": "\\(.*\\)",/Scenario: \\1/' >> results_summary.txt
+                grep -oP '"status": "passed"' "${jsonFile}" | sed 's/"status": "passed"/PASSED/g' >> results_summary.txt
+
+                '''.stripIndent()
+
+                echo "Writing parse_results.sh script..."
+                writeFile file: 'parse_results.sh', text: scriptContent
+                sh 'chmod +x parse_results.sh'
+
+                echo "Executing parse_results.sh..."
+                sh './parse_results.sh > results_summary.txt'
+
                 echo "Test Results Summary:"
-                echo resultsSummary.toString()
-
-                // Mengarsipkan artefak
-                archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
-                archiveArtifacts artifacts: resultsSummaryFile, allowEmptyArchive: true
+                sh 'cat results_summary.txt'
             }
+            archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'results_summary.txt', allowEmptyArchive: true
         }
     }
 }
