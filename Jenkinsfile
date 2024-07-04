@@ -100,12 +100,10 @@ post {
                 def jsonFile = "result/cucumber-report.json"
                 def resultsSummaryFile = 'results_summary.txt'
 
-                // Membaca dan memparsing file JSON
                 def jsonContent = readFile(jsonFile)
                 def jsonSlurper = new groovy.json.JsonSlurper()
                 def testResults = jsonSlurper.parseText(jsonContent)
 
-                // Menghasilkan ringkasan hasil tes
                 def resultsSummary = new StringBuilder()
                 testResults.each { feature ->
                     resultsSummary.append("Feature: ${feature.name}\n")
