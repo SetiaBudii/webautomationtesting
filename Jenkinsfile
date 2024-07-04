@@ -99,6 +99,7 @@ pipeline {
         always {
             script {
               sh 'python3 parsing_result.py'
+              sh 'python3 postattachement.py'
             }
             archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
             archiveArtifacts artifacts: 'results_summary.txt', allowEmptyArchive: true
