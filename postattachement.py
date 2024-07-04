@@ -1,4 +1,5 @@
 import requests
+import os
 
 task_id = "your_task_id"
 url = f"https://api.clickup.com/api/v2/task/{task_id}/attachment"
