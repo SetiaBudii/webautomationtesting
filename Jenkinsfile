@@ -159,20 +159,26 @@ pipeline {
                 archiveArtifacts artifacts: 'results_summary.txt', allowEmptyArchive: true
 
                 // Send screenshots as attachments to ClickUp
-                def screenshotFiles = findFiles(glob: 'screenshots/*.png')
+                def screenshotFiles = sh(
+                    script: 'find screenshots -name "*.png"',
+                    returnStdout: true
+                ).trim().split('\n')
+
                 for (file in screenshotFiles) {
-                    def response = httpRequest(
-                        httpMode: 'POST',
-                        url: "https://api.clickup.com/api/v2/task/${env.TASK_ID}/attachment",
-                        customHeaders: [
-                            [name: 'Authorization', value: "Bearer ${env.CLICKUP_API_TOKEN}"],
-                            [name: 'Content-Type', value: 'multipart/form-data']
-                        ],
-                        uploadFile: file.path,
-                        multipartName: 'attachment',
-                        acceptType: 'APPLICATION_JSON'
-                    )
-                    echo "Uploaded ${file.name} to ClickUp. Response: ${response.content}"
+                    if (file.trim()) {
+                        def response = httpRequest(
+                            httpMode: 'POST',
+                            url: "https://api.clickup.com/api/v2/task/${env.TASK_ID}/attachment",
+                            customHeaders: [
+                                [name: 'Authorization', value: "Bearer ${env.CLICKUP_API_TOKEN}"],
+                                [name: 'Content-Type', value: 'multipart/form-data']
+                            ],
+                            uploadFile: file.trim(),
+                            multipartName: 'attachment',
+                            acceptType: 'APPLICATION_JSON'
+                        )
+                        echo "Uploaded ${file} to ClickUp. Response: ${response.content}"
+                    }
                 }
             }
         }
