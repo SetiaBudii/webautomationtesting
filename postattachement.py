@@ -6,7 +6,6 @@ url = f"https://api.clickup.com/api/v2/task/{task_id}/attachment"
 
 query = {
     "custom_task_ids": "86epr4har",
-    "team_id": "123"
 }
 
 headers = {
