@@ -1,12 +1,12 @@
 import requests
 import os
 
-task_id = "your_task_id"
+task_id = "86epr4har"
 url = f"https://api.clickup.com/api/v2/task/{task_id}/attachment"
 
 query = {
-    "custom_task_ids": "86epr4har",
-    "team_id": "9018383957"
+    "custom_task_ids": "false",
+    "team_id": "9018383957",
 }
 
 headers = {
