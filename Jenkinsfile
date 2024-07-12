@@ -69,19 +69,28 @@ pipeline {
     }
 
     stages {
-        stage('Delete exist screenshots') {
+        // stage('Delete exist screenshots') {
+        //     steps {
+        //         script {
+        //             def screenshotDir = "${env.WORKSPACE}/screenshots"
+        //             echo "Checking folder: ${screenshotDir}"
+        //             if (fileExists(screenshotDir)) {
+        //                 echo "Deleting folder: ${screenshotDir}"
+        //                 sh "rm -rf ${screenshotDir}"
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Clean Workspace') {
             steps {
-                script {
-                    def screenshotDir = "${env.WORKSPACE}/screenshots"
-                    echo "Checking folder: ${screenshotDir}"
-                    if (fileExists(screenshotDir)) {
-                        echo "Deleting folder: ${screenshotDir}"
-                        sh "rm -rf ${screenshotDir}"
-                    }
-                }
+                // Clean before build
+                cleanWs()
+                // We need to explicitly checkout from SCM here
+                checkout scm
+                echo "Building ${env.JOB_NAME}..."
             }
         }
-
         stage('Checkout') {
             steps {
                 git 'https://github.com/SetiaBudii/webautomationtesting.git'
