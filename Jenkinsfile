@@ -88,6 +88,21 @@ pipeline {
             }
         }
 
+        stage('Update Config') {
+            steps {
+                script {
+                    // Path ke file konfigurasi
+                    def configFilePath = 'src/test/resources/config.properties'
+                    
+                    // Menggunakan perintah sed untuk mengganti nilai variabel dalam file
+                    sh "sed -i 's/^driver=\"lokal\"/driver=\"remote\"/' ${configFilePath}"
+                    
+                    // Menampilkan pesan bahwa variabel telah berhasil diperbarui
+                    echo "Variable 'driver' in ${configFilePath} has been updated to 'remote'"
+                }
+            }
+        }
+
         stage('Test') {
             steps {
                 sh 'mvn test'
@@ -97,10 +112,10 @@ pipeline {
 
  post {
         always {
-            script {
-              sh 'python3 parsing_result.py'
-              sh 'python3 postattachement.py'
-            }
+            // script {
+            //   sh 'python3 parsing_result.py'
+            //   sh 'python3 postattachement.py'
+            // }
             archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
             archiveArtifacts artifacts: 'results_summary.txt', allowEmptyArchive: true
         }
