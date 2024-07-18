@@ -60,11 +60,11 @@ pipeline {
 
     tools {
         maven 'Maven 3.9.8' 
-        jdk 'JDK 11'       
+        jdk 'JDK 22'       
     }
 
     environment {
-        JAVA_HOME = tool name: 'JDK 11', type: 'jdk'
+        JAVA_HOME = tool name: 'JDK 22', type: 'jdk'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
@@ -87,8 +87,8 @@ pipeline {
                 // Clean before build
                 cleanWs()
                 // We need to explicitly checkout from SCM here
-                checkout scm
-                echo "Building ${env.JOB_NAME}..."
+                    checkout scm
+                    echo "Building ${env.JOB_NAME}..."
             }
         }
         stage('Checkout') {
@@ -104,7 +104,7 @@ pipeline {
                     def configFilePath = 'src/test/resources/config.properties'
                     
                     // Menggunakan perintah sed untuk mengganti nilai variabel dalam file
-                    sh "sed -i 's/^driver=\"local\"/driver=\"remote\"/' ${configFilePath}"
+                    sh "sed -i 's/^driver=\"lqocal\"/driver=\"remote\"/' ${configFilePath}"
                     
                     // Menampilkan pesan bahwa variabel telah berhasil diperbarui
                     echo "Variable 'driver' in ${configFilePath} has been updated to 'remote'"
@@ -112,11 +112,11 @@ pipeline {
             }
         }
 
-        // stage('Test') {
-        //     steps {
-        //         sh 'mvn test'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
     }
 
  post {
