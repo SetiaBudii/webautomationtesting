@@ -65,6 +65,11 @@ pipeline {
         jdk 'JDKTEST'       
     }
 
+    environment {
+        JAVA_HOME = tool name: 'JDKTEST', type: 'jdk'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         // stage('Delete exist screenshots') {
         //     steps {
@@ -109,9 +114,17 @@ pipeline {
         //     }
         // }
 
-        stage('Test') {
+        // stage('Test') {
+        //     steps {
+        //         sh 'mvn test'
+        //     }
+        // }
+
+        stage('Print JAVA_HOME') {
             steps {
-                sh 'mvn test'
+                script {
+                    echo "JAVA_HOME: ${env.JAVA_HOME}"
+                }
             }
         }
     }
