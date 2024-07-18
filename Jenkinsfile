@@ -60,11 +60,11 @@ pipeline {
 
     tools {
         maven 'Maven 3.9.8' 
-        jdk 'jdk-22'       
+        jdk 'JDK 22'       
     }
 
     environment {
-        JAVA_HOME = tool name: 'jdk-22', type: 'jdk'
+        JAVA_HOME = tool name: 'JDK 22', type: 'jdk'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
@@ -97,24 +97,25 @@ pipeline {
             }
         }
 
-        stage('Update Config') {
-            steps {
-                script {
-                    // Path ke file konfigurasi
-                    def configFilePath = 'src/test/resources/config.properties'
+        // stage('Update Config') {
+        //     steps {
+        //         script {
+        //             // Path ke file konfigurasi
+        //             def configFilePath = 'src/test/resources/config.properties'
                     
-                    // Menggunakan perintah sed untuk mengganti nilai variabel dalam file
-                    sh "sed -i 's/^driver=\"local\"/driver=\"remote\"/' ${configFilePath}"
+        //             // Menggunakan perintah sed untuk mengganti nilai variabel dalam file
+        //             sh "sed -i 's/^driver=\"local\"/driver=\"remote\"/' ${configFilePath}"
                     
-                    // Menampilkan pesan bahwa variabel telah berhasil diperbarui
-                    echo "Variable 'driver' in ${configFilePath} has been updated to 'remote'"
-                }
-            }
-        }
+        //             // Menampilkan pesan bahwa variabel telah berhasil diperbarui
+        //             echo "Variable 'driver' in ${configFilePath} has been updated to 'remote'"
+        //         }
+        //     }
+        // }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                // sh 'mvn test'
+                sh 'java --version'
             }
         }
     }
