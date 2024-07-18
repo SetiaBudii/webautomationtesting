@@ -65,11 +65,6 @@ pipeline {
         jdk 'JDKTEST'       
     }
 
-    environment {
-        JAVA_HOME = tool name: 'JDKTEST', type: 'jdk'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
-    }
-
     stages {
         // stage('Delete exist screenshots') {
         //     steps {
