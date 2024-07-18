@@ -114,19 +114,19 @@ pipeline {
         //     }
         // }
 
-        // stage('Test') {
-        //     steps {
-        //         sh 'mvn test'
-        //     }
-        // }
-
-        stage('Print JAVA_HOME') {
+        stage('Test') {
             steps {
-                script {
-                    echo "JAVA_HOME: ${env.JAVA_HOME}"
-                }
+                sh 'mvn test'
             }
         }
+
+        // stage('Print JAVA_HOME') {
+        //     steps {
+        //         script {
+        //             echo "JAVA_HOME: ${env.JAVA_HOME}"
+        //         }
+        //     }
+        // }
     }
 
  post {
