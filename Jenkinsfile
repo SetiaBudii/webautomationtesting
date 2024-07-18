@@ -104,7 +104,7 @@ pipeline {
                     def configFilePath = 'src/test/resources/config.properties'
                     
                     // Menggunakan perintah sed untuk mengganti nilai variabel dalam file
-                    sh "sed -i 's/^driver=\"lqocal\"/driver=\"remote\"/' ${configFilePath}"
+                    sh "sed -i 's/^driver=\"local\"/driver=\"remote\"/' ${configFilePath}"
                     
                     // Menampilkan pesan bahwa variabel telah berhasil diperbarui
                     echo "Variable 'driver' in ${configFilePath} has been updated to 'remote'"
