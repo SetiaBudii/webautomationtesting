@@ -60,11 +60,11 @@ pipeline {
 
     tools {
         maven 'Maven 3.9.8' 
-        jdk 'JDK 22'       
+        jdk 'jdk-22'       
     }
 
     environment {
-        JAVA_HOME = tool name: 'JDK 22', type: 'jdk'
+        JAVA_HOME = tool name: 'jdk-22', type: 'jdk'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
