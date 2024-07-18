@@ -56,15 +56,17 @@
 //     }
 // }
 pipeline {
-    agent any
+    agent {
+        label 'built-in'
+    }
 
     tools {
         maven 'Maven 3.9.8' 
-        jdk 'JDK 22'       
+        jdk 'JDKTEST'       
     }
 
     environment {
-        JAVA_HOME = tool name: 'JDK 22', type: 'jdk'
+        JAVA_HOME = tool name: 'JDKTEST', type: 'jdk'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
