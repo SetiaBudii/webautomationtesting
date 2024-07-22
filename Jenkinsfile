@@ -136,14 +136,14 @@ pipeline {
             }
         }
 
-        stage('Start Driver') {
-            steps {
-                script {
-                    // Start the driver
-                    sh '/usr/bin/WebKitWebDriver --port=8888 &'
-                }
-            }
-        }
+        // stage('Start Driver') {
+        //     steps {
+        //         script {
+        //             // Start the driver
+        //             sh '/usr/bin/WebKitWebDriver --port=8888 &'
+        //         }
+        //     }
+        // }
 
         stage('Test') {
             steps {
