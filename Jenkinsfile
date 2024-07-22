@@ -140,7 +140,7 @@ pipeline {
             steps {
                 script {
                     // Start the driver
-                    sh 'usr/bin/driver --port=8888 &'
+                    sh '/usr/bin/WebKitWebDriver --port=8888 &'
                 }
             }
         }
