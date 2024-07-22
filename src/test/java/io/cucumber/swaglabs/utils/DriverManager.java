@@ -135,7 +135,7 @@ public class DriverManager {
         if (driver == null) {
             try {
                 DesiredCapabilities capabilities = new DesiredCapabilities();
-                driver = new RemoteWebDriver(new URL("http://184.105.238.72:8888"), capabilities);
+                driver = new RemoteWebDriver(new URL("http://localhost:8888"), capabilities);
                 driver.manage().window().fullscreen();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
